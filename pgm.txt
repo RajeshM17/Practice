@@ -1,0 +1,74 @@
+/*
+?Write a java program that takes as input text “SUSPICIOUS ” and encrypts it using the following steps
+?Convert each alphabet to its binary ASCII equivalent.
+?Append 0 at the left most
+?Divide 8 bit of an alphabet into two parts,left 4 bits and right 4 bits
+?Swap left 4 bit with right four bit.
+?Represent hexadecimal equivalent of each four bits.
+?The output must be in hexadecimal no.
+
+For Example:
+?The first alphabet is “S”. Ascii value of S is 83 in decimal, 1010011 in binary.
+?Append 0 at left most,Now value will become 01010011.
+?Now divide it into two parts left is 0101 and right 0011
+?Now swap left with right ,so now new left is 0011 and new right is 0101
+?Write Hexadecimal equivalent of left and right part ,it is 35.
+?so,the output for S will be 35.
+*/
+#include <iostream>
+#include<algorithm>
+using namespace std;
+int binaryToDecimal(int n) 
+{ 
+    int num = n; 
+    int dec_value = 0; 
+  
+    int base = 1; 
+  
+    int temp = num; 
+    while (temp) { 
+        int last_digit = temp % 10; 
+        temp = temp / 10; 
+  
+        dec_value += last_digit * base; 
+  
+        base = base * 2; 
+    } 
+  
+    return dec_value; 
+} 
+int main()
+{
+    string str;
+    cin>>str;
+    int i=0;
+    while(str[i]!='\0')
+    {
+        int val = int(str[i]); 
+        string bin = ""; 
+        while (val > 0) 
+        { 
+            (val % 2)? bin.push_back('1') :bin.push_back('0'); 
+            val /= 2; 
+        } 
+        reverse(bin.begin(), bin.end()); 
+        bin="0"+bin;
+        
+        int mid=int(bin.size()/2);
+        string left=bin.substr(0,mid);
+        string right=bin.substr(mid);
+        
+        string templr=left;
+        left=right;
+        right=templr;
+        
+        int dec1=stoi(left);
+        int dec2=stoi(right);
+        
+        dec1=binaryToDecimal(dec1);
+        dec2=binaryToDecimal(dec2);
+        cout<<hex<<dec1<<hex<<dec2;
+        cout<<" ";
+        i++;
+    }
+}
